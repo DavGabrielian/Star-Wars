@@ -12,9 +12,13 @@
 }
 
 .person-details .list-group {
-  padding: .25rem;
+  padding: 0.25rem;
 }
 
 .person-details .list-group .term {
-margin-left: .5rem;}
+  margin-left: 0.5rem;
+}
 
+.select-person {
+  font-size: 2rem;
+}

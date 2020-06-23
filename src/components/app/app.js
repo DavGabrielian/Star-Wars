@@ -1,26 +1,60 @@
-import React from "react";
+import React, { Component } from "react";
 import Header from "../header";
 import ItemList from "../item-list";
 import RandomPlanet from "../random-planet";
 import PersonDetails from "../person-details";
+import ErrorButton from "../error-button/index";
+import ErrorIndicator from "../error-indicator/index";
 import "./app.css";
+import PeoplePage from "../people-page/people-page";
 
-const App = () => {
-  return (
-    <div>
-      <Header />
-      <RandomPlanet />
+export default class App extends Component {
+  state = {
+    showRandomPlanet: true,
+    hasError: false,
+  };
 
-      <div className="row mb2">
-        <div className="col-md-6">
-          <ItemList />
+  toggleRandomPlanet = () => {
+    this.setState((state) => {
+      return {
+        showRandomPlanet: !state.showRandomPlanet,
+      };
+    });
+  };
+
+  componentDidCatch() {
+    this.setState({ hasError: true });
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <ErrorIndicator />;
+    }
+    const planet = this.state.showRandomPlanet ? <RandomPlanet /> : null;
+
+    return (
+      <div className="stardb-app">
+        <Header />
+        {planet}
+        <div>
+          <button
+            className="toggle-planet btn btn-warning btn-lg"
+            onClick={this.toggleRandomPlanet}
+          >
+            Toggle Random Planet
+          </button>
+
+          <ErrorButton />
         </div>
-        <div className="col-md-6">
-          <PersonDetails />
-        </div>
+
+        <PeoplePage />
+        <br/>
+        <PeoplePage />
+        <br/>
+        <PeoplePage />
+
+
       </div>
-    </div>
-  );
-};
-
-export default App;
+    );
+  }
+}
